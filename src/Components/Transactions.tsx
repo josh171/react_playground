@@ -16,6 +16,7 @@ import {
 import { orange } from "@mui/material/colors";
 import React, { useState } from "react";
 import { useAppContext } from "../Context";
+import { returnTransactionIcon } from "../Context/returnTransactionIcon";
 import { ITransactionData, PaymentType } from "../Context/TypesAndStates";
 import FormDialog from "./SubComponents/FormDialog";
 
@@ -104,6 +105,7 @@ function Transactions() {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell width="10" />
               <TableCell>
                 <strong>Date</strong>
               </TableCell>
@@ -120,10 +122,17 @@ function Transactions() {
               .sort((a: any, b: any) => b.date - a.date)
               .map(
                 (
-                  { date, description, amount, payment_type }: ITransactionData,
+                  {
+                    date,
+                    description,
+                    amount,
+                    payment_type,
+                    balance_type,
+                  }: ITransactionData,
                   index: number
                 ) => (
                   <TableRow key={index}>
+                    <TableCell>{returnTransactionIcon(balance_type)}</TableCell>
                     <TableCell>{new Date(date).toDateString()}</TableCell>
                     <TableCell>{description}</TableCell>
                     <TableCell align="right">
