@@ -16,7 +16,7 @@ import {
 import { orange } from "@mui/material/colors";
 import React, { useState } from "react";
 import { useAppContext } from "../Context";
-import { returnTransactionIcon } from "../Context/returnTransactionIcon";
+import { returnTransactionIcon } from "../Data/returnTransactionIcon";
 import { ITransactionData, PaymentType } from "../Context/TypesAndStates";
 import FormDialog from "./SubComponents/FormDialog";
 

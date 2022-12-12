@@ -17,13 +17,16 @@ interface FormField {
   label: string;
   component?: (
     item: ITransactionData,
-    handleChange: (
-      e: React.ChangeEvent<HTMLInputElement>,
-      isDate?: boolean
-    ) => void,
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     index: number
   ) => React.ReactNode;
 }
+const fieldProps: any = {
+  margin: "dense",
+  size: "small",
+  fullWidth: true,
+  variant: "standard",
+};
 const fields: FormField[] = [
   {
     name: "date",
@@ -31,18 +34,13 @@ const fields: FormField[] = [
     component: ({ date }, handleChange, index) => {
       return (
         <TextField
+          {...fieldProps}
           key={index}
-          margin="dense"
-          size="small"
-          fullWidth
           label="Date"
           type="datetime-local"
-          variant="standard"
           name="date"
           value={new Date(date).toISOString().substring(0, 16)}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleChange(e, true)
-          }
+          onChange={handleChange}
         />
       );
     },
