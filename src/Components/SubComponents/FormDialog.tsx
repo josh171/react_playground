@@ -81,7 +81,7 @@ function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
     setOpen(false);
   };
   return (
-    <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
+    <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="md">
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
