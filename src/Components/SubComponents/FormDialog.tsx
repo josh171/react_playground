@@ -26,6 +26,7 @@ const fieldProps: any = {
   size: "small",
   fullWidth: true,
   variant: "standard",
+  require: true
 };
 const fields: FormField[] = [
   {
@@ -92,6 +93,7 @@ function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
                   key={index}
                   label={field.label}
                   name={field.name}
+                  required
                   fullWidth
                   type={field.name === "amount" ? "number" : "text"}
                   margin="dense"

@@ -47,7 +47,7 @@ export const transactions: ITransactionData[] = [
     description: "Deposit",
     date: new Date("2022-05-23T18:25:43.511Z"),
     amount: 250,
-    balance_type: "food",
+    balance_type: "deposit",
     payment_type: "debit",
   },
   {

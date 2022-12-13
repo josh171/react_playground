@@ -2,19 +2,18 @@ import {
   Button,
   Card,
   CardContent,
+  Divider,
   Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   TablePagination,
-  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
 import { orange } from "@mui/material/colors";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useAppContext } from "../Context";
 import { returnTransactionIcon } from "../Data/returnTransactionIcon";
 import { ITransactionData, PaymentType } from "../Context/TypesAndStates";
@@ -89,7 +88,7 @@ function Transactions() {
           <Grid container alignItems="center" spacing={3}>
             <Grid item xs={12}>
               <TextField
-                placeholder="Please search by description..."
+                placeholder="Please search..."
                 fullWidth
                 size="small"
                 margin="dense"
@@ -101,54 +100,10 @@ function Transactions() {
               />
             </Grid>
           </Grid>
-        </CardContent>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell width="10" />
-              <TableCell>
-                <strong>Date</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Description</strong>
-              </TableCell>
-              <TableCell align="right">
-                <strong>Amount</strong>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .sort((a: any, b: any) => b.date - a.date)
-              .map(
-                (
-                  {
-                    date,
-                    description,
-                    amount,
-                    payment_type,
-                    balance_type,
-                  }: ITransactionData,
-                  index: number
-                ) => (
-                  <TableRow key={index}>
-                    <TableCell>{returnTransactionIcon(balance_type)}</TableCell>
-                    <TableCell>{new Date(date).toDateString()}</TableCell>
-                    <TableCell>{description}</TableCell>
-                    <TableCell align="right">
-                      <strong>
-                        {payment_type === "debit"
-                          ? `-£${amount}`
-                          : `£${amount}`}
-                      </strong>
-                    </TableCell>
-                  </TableRow>
-                )
-              )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
               <TablePagination
+                component="div"
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                 colSpan={3}
                 count={currentEntities.length}
@@ -157,9 +112,47 @@ function Transactions() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
-            </TableRow>
-          </TableFooter>
-        </Table>
+              <List>
+                {rows
+                  .sort((a: any, b: any) => b.date - a.date)
+                  .map(
+                    (
+                      {
+                        balance_type,
+                        description,
+                        date,
+                        amount,
+                        payment_type,
+                      }: ITransactionData,
+                      index: number
+                    ) => (
+                      <Fragment key={index}>
+                        <ListItem>
+                          <ListItemIcon>
+                            {returnTransactionIcon(balance_type)}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={<strong>{description}</strong>}
+                            secondary={`${new Date(
+                              date
+                            ).toLocaleTimeString()} | ${new Date(
+                              date
+                            ).toLocaleDateString()}`}
+                          />
+                          <strong>
+                            {payment_type === "debit"
+                              ? `-£${amount}`
+                              : `£${amount}`}
+                          </strong>
+                        </ListItem>
+                        <Divider />
+                      </Fragment>
+                    )
+                  )}
+              </List>
+            </Grid>
+          </Grid>
+        </CardContent>
       </Card>
       <FormDialog open={open} setOpen={setOpen} payment_type={paymentType} />
     </>
