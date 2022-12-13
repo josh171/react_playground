@@ -8,7 +8,7 @@ function Topbar() {
   return (
     <AppBar position="fixed" sx={{ background: grey[500] }}>
       <Toolbar>
-        <Avatar sx={{ bgcolor: orange[500] }}>JD</Avatar>
+        <Avatar sx={{ bgcolor: orange[500] }}>AS</Avatar>
         <Skeleton variant="text" width={100} style={skeletonStyle} />
         <Skeleton variant="text" width={100} style={skeletonStyle} />
         <Skeleton variant="text" width={100} style={skeletonStyle} />

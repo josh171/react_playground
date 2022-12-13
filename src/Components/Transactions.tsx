@@ -1,7 +1,4 @@
 import {
-  Button,
-  Card,
-  CardContent,
   Divider,
   Grid,
   List,
@@ -12,20 +9,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { orange } from "@mui/material/colors";
 import React, { Fragment, useState } from "react";
 import { useAppContext } from "../Context";
 import { returnTransactionIcon } from "../Data/returnTransactionIcon";
-import { ITransactionData, PaymentType } from "../Context/TypesAndStates";
-import FormDialog from "./SubComponents/FormDialog";
+import { ITransactionData } from "../Context/TypesAndStates";
 
 function Transactions() {
   const { transactions } = useAppContext();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [filter, setFilter] = useState("");
-  const [open, setOpen] = useState(false);
-  const [paymentType, setPaymentType] = useState<PaymentType>("credit");
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -38,11 +31,6 @@ function Transactions() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const buttonProps: any = {
-    variant: "contained",
-    fullWidth: true,
-    sx: { background: orange[500] },
-  };
   const currentEntities = transactions.filter((item: ITransactionData) =>
     item.description.toLowerCase().includes(filter.toLowerCase())
   );
@@ -52,109 +40,74 @@ function Transactions() {
   );
   return (
     <>
-      <Card>
-        <CardContent>
-          <Typography variant="h4">Transactions</Typography>
-          <Grid container spacing={3} alignItems="center">
-            <Grid item xs={3} />
-            <Grid item xs={6}>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item xs={6}>
-                  <Button
-                    {...buttonProps}
-                    onClick={() => {
-                      setOpen(true);
-                      setPaymentType("debit");
-                    }}
-                  >
-                    Top Up
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button
-                    {...buttonProps}
-                    onClick={() => {
-                      setOpen(true);
-                      setPaymentType("credit");
-                    }}
-                  >
-                    Withdraw
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={3} />
-          </Grid>
-          <Grid container alignItems="center" spacing={3}>
-            <Grid item xs={12}>
-              <TextField
-                placeholder="Please search..."
-                fullWidth
-                size="small"
-                margin="dense"
-                value={filter}
-                onChange={(e) => {
-                  setFilter(e.target.value);
-                  setPage(0);
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TablePagination
-                component="div"
-                rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                colSpan={3}
-                count={currentEntities.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-              <List>
-                {rows
-                  .sort((a: any, b: any) => b.date - a.date)
-                  .map(
-                    (
-                      {
-                        balance_type,
-                        description,
-                        date,
-                        amount,
-                        payment_type,
-                      }: ITransactionData,
-                      index: number
-                    ) => (
-                      <Fragment key={index}>
-                        <ListItem>
-                          <ListItemIcon>
-                            {returnTransactionIcon(balance_type)}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={<strong>{description}</strong>}
-                            secondary={`${new Date(
-                              date
-                            ).toLocaleTimeString()} | ${new Date(
-                              date
-                            ).toLocaleDateString()}`}
-                          />
-                          <strong>
-                            {payment_type === "debit"
-                              ? `-£${amount}`
-                              : `£${amount}`}
-                          </strong>
-                        </ListItem>
-                        <Divider />
-                      </Fragment>
-                    )
-                  )}
-              </List>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-      <FormDialog open={open} setOpen={setOpen} payment_type={paymentType} />
+      <Typography variant="h4">Transactions</Typography>
+      <Grid container alignItems="center" spacing={3}>
+        <Grid item xs={12}>
+          <TextField
+            placeholder="Please search..."
+            fullWidth
+            size="small"
+            margin="dense"
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              setPage(0);
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TablePagination
+            component="div"
+            rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+            colSpan={3}
+            count={currentEntities.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+          <List>
+            {rows
+              .sort((a: any, b: any) => b.date - a.date)
+              .map(
+                (
+                  {
+                    balance_type,
+                    description,
+                    date,
+                    amount,
+                    payment_type,
+                  }: ITransactionData,
+                  index: number
+                ) => (
+                  <Fragment key={index}>
+                    <ListItem button>
+                      <ListItemIcon>
+                        {returnTransactionIcon(balance_type)}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={<strong>{description}</strong>}
+                        secondary={`${new Date(
+                          date
+                        ).toLocaleTimeString()} | ${new Date(
+                          date
+                        ).toLocaleDateString()}`}
+                      />
+                      <strong>
+                        {payment_type === "debit"
+                          ? `-£${amount}`
+                          : `£${amount}`}
+                      </strong>
+                    </ListItem>
+                    <Divider />
+                  </Fragment>
+                )
+              )}
+          </List>
+        </Grid>
+      </Grid>
     </>
   );
 }

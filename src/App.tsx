@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Divider, Grid, Typography } from "@mui/material";
 import Balance from "./Components/Balance";
 import Topbar from "./Components/Topbar";
 import Transactions from "./Components/Transactions";
@@ -8,11 +8,17 @@ function App() {
   return (
     <AppContextProvider>
       <Topbar />
-      <Box sx={{ p: 10 }}>
-        <Stack spacing={2}>
-          <Balance />
-          <Transactions />
-        </Stack>
+      <Box p={12}>
+        <Typography variant="h3">Adam Smith</Typography>
+        <Divider sx={{ mt: 2 }} />
+        <Grid container spacing={2} sx={{ mt: 2 }}>
+          <Grid item xs={9}>
+            <Transactions />
+          </Grid>
+          <Grid item xs={3}>
+            <Balance />
+          </Grid>
+        </Grid>
       </Box>
     </AppContextProvider>
   );
