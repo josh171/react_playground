@@ -26,7 +26,7 @@ const fieldProps: any = {
   size: "small",
   fullWidth: true,
   variant: "standard",
-  require: true
+  require: "true",
 };
 const fields: FormField[] = [
   {

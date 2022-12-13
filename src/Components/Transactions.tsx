@@ -97,8 +97,8 @@ function Transactions() {
                       />
                       <strong>
                         {payment_type === "debit"
-                          ? `-£${amount}`
-                          : `£${amount}`}
+                          ? `£${amount}`
+                          : `-£${amount}`}
                       </strong>
                     </ListItem>
                     <Divider />

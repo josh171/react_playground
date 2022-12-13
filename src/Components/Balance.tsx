@@ -13,7 +13,6 @@ import { ITransactionData, PaymentType } from "../Context/TypesAndStates";
 import { blue, green, orange, purple } from "@mui/material/colors";
 import { useState } from "react";
 import FormDialog from "./SubComponents/FormDialog";
-import SpendingGraph from "./SubComponents/SpendingGraph";
 
 function Balance() {
   const { balance, transactions } = useAppContext();
@@ -105,11 +104,6 @@ function Balance() {
           >
             Withdraw
           </Button>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <SpendingGraph />
         </Grid>
       </Grid>
       <FormDialog open={open} setOpen={setOpen} payment_type={paymentType} />
