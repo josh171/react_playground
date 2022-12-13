@@ -1,6 +1,6 @@
 import { createContext, FunctionComponent, useContext, useState } from "react";
 import { defaultContext, defaultForm, IContext } from "./TypesAndStates";
-import { transactions as transactionData } from '../Data/transactions'
+import { transactions as transactionData } from "../Data/transactions";
 
 export const AppContext = createContext(defaultContext);
 
@@ -12,6 +12,13 @@ export const AppContextProvider: FunctionComponent<Record<string, any>> = ({
   const [form, setForm] = useState(defaultForm);
   const [transactions, setTransactions] = useState(transactionData);
   const [balance, setBalance] = useState(950);
-  const context: IContext = { form, setForm, transactions, setTransactions, balance, setBalance };
+  const context: IContext = {
+    form,
+    setForm,
+    transactions,
+    setTransactions,
+    balance,
+    setBalance,
+  };
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
 };
