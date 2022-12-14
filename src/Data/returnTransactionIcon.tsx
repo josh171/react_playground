@@ -6,6 +6,7 @@ import { BalanceType } from "../Context/TypesAndStates";
 import { blue, green, orange, purple } from "@mui/material/colors";
 
 export function returnTransactionIcon(balance_type: BalanceType) {
+  // switch statement to determine what icon should be displayed within transaction list
   switch (balance_type.toLowerCase()) {
     case "leisure":
       return (

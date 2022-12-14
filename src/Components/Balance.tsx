@@ -1,12 +1,4 @@
-import {
-  Button,
-  Grid,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Grid, ListItem, ListItemIcon, ListItemText, Stack, Typography } from "@mui/material";
 import { useAppContext } from "../Context";
 import CircleIcon from "@mui/icons-material/Circle";
 import { ITransactionData, PaymentType } from "../Context/TypesAndStates";
@@ -19,14 +11,17 @@ function Balance() {
   const [open, setOpen] = useState(false);
   const [paymentType, setPaymentType] = useState<PaymentType>("credit");
   const returnBalanceTotal = (balance: string) => {
+    // Variable to filter down balance type from transactions given by prop
     const filteredBalance = transactions.filter(
       (item: ITransactionData) => item.balance_type === balance
     );
+    // Variable to sum/add up all the balance total
     const sum = filteredBalance.reduce((accumulator, object) => {
       return accumulator + object.amount;
     }, 0);
     return sum;
   };
+  // Standard props for button, so don't have to rewrite the same props each time
   const buttonProps: any = {
     variant: "contained",
     fullWidth: true,
@@ -66,9 +61,7 @@ function Balance() {
             <ListItemIcon>
               <CircleIcon fontSize="small" sx={{ color: blue[500] }} />
             </ListItemIcon>
-            <ListItemText
-              primary={`Utility: ${returnBalanceTotal("utility")}`}
-            />
+            <ListItemText primary={`Utility: ${returnBalanceTotal("utility")}`} />
           </ListItem>
         </Grid>
         <Grid item xs={6}>
@@ -76,17 +69,13 @@ function Balance() {
             <ListItemIcon>
               <CircleIcon fontSize="small" sx={{ color: green[500] }} />
             </ListItemIcon>
-            <ListItemText
-              primary={`Deposit: ${returnBalanceTotal("deposit")}`}
-            />
+            <ListItemText primary={`Deposit: ${returnBalanceTotal("deposit")}`} />
           </ListItem>
         </Grid>
       </Grid>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs={6}>
-          <Button
-            {...buttonProps}
-            onClick={() => {
+          <Button {...buttonProps} onClick={() => {
               setOpen(true);
               setPaymentType("debit");
             }}
@@ -95,9 +84,7 @@ function Balance() {
           </Button>
         </Grid>
         <Grid item xs={6}>
-          <Button
-            {...buttonProps}
-            onClick={() => {
+          <Button {...buttonProps} onClick={() => {
               setOpen(true);
               setPaymentType("credit");
             }}

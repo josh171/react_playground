@@ -1,11 +1,7 @@
 import { Dialog, DialogContent, TextField, Stack, Button } from "@mui/material";
 import React from "react";
 import { useAppContext } from "../../Context";
-import {
-  defaultForm,
-  ITransactionData,
-  PaymentType,
-} from "../../Context/TypesAndStates";
+import { defaultForm, ITransactionData, PaymentType } from "../../Context/TypesAndStates";
 
 interface IDialogProps {
   open: boolean;
@@ -15,19 +11,16 @@ interface IDialogProps {
 interface FormField {
   name: string;
   label: string;
-  component?: (
-    item: ITransactionData,
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    index: number
-  ) => React.ReactNode;
+  component?: (item: ITransactionData, handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void, index: number) => React.ReactNode;
 }
+// Standard props for textfield, so don't have to rewrite them
 const fieldProps: any = {
   margin: "dense",
   size: "small",
-  fullWidth: true,
   variant: "standard",
   require: "true",
 };
+// Variable to gather fields and map them. Following the FormField interface
 const fields: FormField[] = [
   {
     name: "date",
@@ -57,8 +50,8 @@ const fields: FormField[] = [
 ];
 
 function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
-  const { form, setForm, transactions, setTransactions, balance, setBalance } =
-    useAppContext();
+  const { form, setForm, transactions, setTransactions, balance, setBalance } = useAppContext();
+  // Variable to return correct value format whether value is a date or a number
   const returnFormValue = (name: string, value: string) => {
     if (name === "amount") return parseInt(value);
     if (name === "date") return new Date(value);
@@ -73,11 +66,15 @@ function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
   };
   const handleSubmit = (evt: React.SyntheticEvent) => {
     evt.preventDefault();
+    // Adding new entry to transaction list
     setTransactions([...transactions, form]);
+    // Setting form back to default values
     setForm(defaultForm);
-    const sum =
-      payment_type === "debit" ? balance + form.amount : balance - form.amount;
+    // Variable to calculate the balance
+    const sum = payment_type === "debit" ? balance + form.amount : balance - form.amount;
+    // Setting new balance
     setBalance(sum);
+    // Closing form dialog box
     setOpen(false);
   };
   return (
@@ -86,6 +83,7 @@ function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
             {fields.map((field: FormField, index: number) =>
+            // Determining whether to return standard textfield with form value, or to render the component that is passed from fields const 
               field.component ? (
                 field.component(form, handleChange, index)
               ) : (
@@ -94,7 +92,6 @@ function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
                   label={field.label}
                   name={field.name}
                   required
-                  fullWidth
                   type={field.name === "amount" ? "number" : "text"}
                   margin="dense"
                   variant="standard"
@@ -103,12 +100,7 @@ function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
                 />
               )
             )}
-            <Button
-              fullWidth={false}
-              variant="contained"
-              color="success"
-              type="submit"
-            >
+            <Button variant="contained" color="success" type="submit">
               Confirm
             </Button>
           </Stack>
