@@ -1,15 +1,14 @@
 import { Button, Grid, ListItem, ListItemIcon, ListItemText, Stack, Typography } from "@mui/material";
 import { useAppContext } from "../Context";
 import CircleIcon from "@mui/icons-material/Circle";
-import { ITransactionData, PaymentType } from "../Data/TypesAndStates";
+import { ITransactionData } from "../Data/TypesAndStates";
 import { blue, green, orange, purple } from "@mui/material/colors";
 import { useState } from "react";
 import FormDialog from "./SubComponents/FormDialog";
 
 function Balance() {
-  const { balance, transactions } = useAppContext();
+  const { balance, transactions, transferType, setTransferType } = useAppContext();
   const [open, setOpen] = useState(false);
-  const [paymentType, setPaymentType] = useState<PaymentType>("credit");
   const returnBalanceTotal = (balance: string) => {
     // Variable to filter down balance type from transactions given by prop
     const filteredBalance = transactions.filter(
@@ -76,7 +75,7 @@ function Balance() {
         <Grid item xs={6}>
           <Button {...buttonProps} onClick={() => {
               setOpen(true);
-              setPaymentType("debit");
+              setTransferType("topup");
             }}
           >
             Top Up
@@ -85,14 +84,14 @@ function Balance() {
         <Grid item xs={6}>
           <Button {...buttonProps} onClick={() => {
               setOpen(true);
-              setPaymentType("credit");
+              setTransferType("withdraw");
             }}
           >
             Withdraw
           </Button>
         </Grid>
       </Grid>
-      <FormDialog open={open} setOpen={setOpen} payment_type={paymentType} />
+      <FormDialog open={open} setOpen={setOpen} transaction_type={transferType} />
     </Stack>
   );
 }

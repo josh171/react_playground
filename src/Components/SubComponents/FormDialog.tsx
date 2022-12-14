@@ -1,77 +1,33 @@
-import { Dialog, DialogContent, TextField, Stack, Button } from "@mui/material";
-import React from "react";
+import { Dialog, DialogContent, TextField, Stack, Button, ToggleButtonGroup, ToggleButton, InputAdornment, Typography } from "@mui/material";
+import React, { ChangeEventHandler } from "react";
 import { useAppContext } from "../../Context";
-import { defaultForm, ITransactionData, PaymentType } from "../../Data/TypesAndStates";
+import { TransactionType } from "../../Data/TypesAndStates";
 
 interface IDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  payment_type: PaymentType;
+  transaction_type: TransactionType;
 }
-interface FormField {
-  name: string;
-  label: string;
-  component?: (item: ITransactionData, handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void, index: number) => React.ReactNode;
-}
-// Standard props for textfield, so don't have to rewrite them
-const fieldProps: any = {
-  margin: "dense",
-  size: "small",
-  variant: "standard",
-  require: "true",
-};
-// Variable to gather fields and map them. Following the FormField interface
-const fields: FormField[] = [
-  {
-    name: "date",
-    label: "Date",
-    component: ({ date }, handleChange, index) => {
-      return (
-        <TextField
-          {...fieldProps}
-          key={index}
-          label="Date"
-          type="datetime-local"
-          name="date"
-          value={new Date(date).toISOString().substring(0, 16)}
-          onChange={handleChange}
-        />
-      );
-    },
-  },
-  {
-    name: "description",
-    label: "Description",
-  },
-  {
-    name: "amount",
-    label: "Amount (£)",
-  },
-];
 
-function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
-  const { form, setForm, transactions, setTransactions, balance, setBalance } = useAppContext();
-  // Variable to return correct value format whether value is a date or a number
-  const returnFormValue = (name: string, value: string) => {
-    if (name === "amount") return parseInt(value);
-    if (name === "date") return new Date(value);
-    return value;
-  };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: returnFormValue(name, value),
-    });
+function FormDialog({ open, setOpen, transaction_type }: IDialogProps) {
+  const { amount, setAmount, transactions, setTransactions, transferType, balance, setBalance } = useAppContext();
+  // Variable to calculate the balance
+  const sum = transaction_type === "topup" ? balance + amount : transaction_type === "withdraw" ? balance - amount : balance + amount;
+  const handleChange = (event: React.MouseEvent<HTMLElement> | ChangeEventHandler<HTMLInputElement>, newAmount: number) => {
+    setAmount(newAmount);
   };
   const handleSubmit = (evt: React.SyntheticEvent) => {
     evt.preventDefault();
     // Adding new entry to transaction list
-    setTransactions([...transactions, form]);
-    // Setting form back to default values
-    setForm(defaultForm);
-    // Variable to calculate the balance
-    const sum = payment_type === "debit" ? balance + form.amount : balance - form.amount;
+    setTransactions([...transactions, {
+      description: transferType,
+      date: new Date(),
+      amount,
+      balance_type: "deposit",
+      transaction_type 
+    }]);
+    // Setting amount back to default value
+    setAmount(50);
     // Setting new balance
     setBalance(sum);
     // Closing form dialog box
@@ -82,27 +38,35 @@ function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <Stack spacing={2}>
-            {fields.map((field: FormField, index: number) =>
-            // Determining whether to return standard textfield with form value, or to render the component that is passed from fields const 
-              field.component ? (
-                field.component(form, handleChange, index)
-              ) : (
-                <TextField
-                  key={index}
-                  label={field.label}
-                  name={field.name}
-                  required
-                  type={field.name === "amount" ? "number" : "text"}
-                  margin="dense"
-                  variant="standard"
-                  value={form[field.name as keyof ITransactionData]}
-                  onChange={handleChange}
-                />
-              )
-            )}
+            <TextField
+              name="amount"
+              label="Amount"
+              fullWidth
+              margin="dense"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">£</InputAdornment>
+                ),
+              }}
+              value={amount}
+              onChange={(e) => setAmount(parseInt(e.target.value))}
+              variant="outlined"
+            />
+            <ToggleButtonGroup
+              color="primary"
+              value={amount}
+              exclusive
+              fullWidth
+              onChange={handleChange}
+            >
+              {[10.0, 50.0, 100.0].map((amount: number) => (
+                <ToggleButton value={amount} key={amount}>£{amount}</ToggleButton>
+              ))}
+            </ToggleButtonGroup>
             <Button variant="contained" color="primary" type="submit">
-              Confirm
+              Confirm Topup
             </Button>
+            <Typography variant="body1">Your new balance will be: £{sum}</Typography>
           </Stack>
         </form>
       </DialogContent>

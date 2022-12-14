@@ -1,6 +1,7 @@
 import { transactions } from "./transactions"
 
-export type PaymentType = 'credit' | 'debit'
+export type TransactionType = 'topup' | 'withdraw' | 'transaction'
+export type TransferType = 'topup' | 'withdraw'
 export type BalanceType = 'leisure' | 'food' | 'utility' | 'deposit'
 
 // Transaction interface
@@ -9,13 +10,15 @@ export interface ITransactionData {
   description: string;
   balance_type: BalanceType;
   amount: number;
-  payment_type: PaymentType;
+  transaction_type: TransactionType;
 }
 
 // App context state interface
 export interface IContext {
-  form: ITransactionData
-  setForm: (form: ITransactionData) => void
+  amount: number
+  setAmount: (balance: number) => void
+  transferType: TransferType
+  setTransferType: (transfer: TransferType) => void
   transactions: any[]
   setTransactions: (transactions: any) => void
   balance: number
@@ -23,18 +26,13 @@ export interface IContext {
 }
 
 // Default form for app
-export const defaultForm: ITransactionData = {
-  date: new Date(),
-  description: "",
-  amount: 0,
-  balance_type: "deposit",
-  payment_type: "credit",
-};
 
 // Default app context with links/references to default states/data
 export const defaultContext: IContext = {
-  form: defaultForm,
-  setForm: () => {},
+  amount: 50,
+  setAmount: () => {},
+  transferType: 'topup',
+  setTransferType: () => {},
   transactions: transactions,
   setTransactions: () => [],
   balance: 950,

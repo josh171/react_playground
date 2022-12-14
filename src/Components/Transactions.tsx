@@ -54,7 +54,7 @@ function Transactions() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
           <List>
-            {rows.sort((a: any, b: any) => b.date - a.date).map(({balance_type, description, date, amount, payment_type }: ITransactionData, index: number) => (
+            {rows.sort((a: any, b: any) => b.date - a.date).map(({balance_type, description, date, amount, transaction_type }: ITransactionData, index: number) => (
               <Fragment key={index}>
                 <ListItemButton>
                   <ListItemIcon>
@@ -64,7 +64,7 @@ function Transactions() {
                     primary={<strong>{description}</strong>}
                     secondary={`${new Date(date).toLocaleTimeString()} | ${new Date(date).toLocaleDateString()}`}
                   />
-                  <strong>{payment_type === "debit" ? `£${amount}` : `-£${amount}`}</strong>
+                  <strong>{transaction_type === "topup" ? `£${amount}` : `-£${amount}`}</strong>
                 </ListItemButton>
                 <Divider />
               </Fragment>
