@@ -1,5 +1,5 @@
 import { createContext, FunctionComponent, useContext, useState } from "react";
-import { defaultContext, defaultForm, IContext } from "./TypesAndStates";
+import { defaultContext, defaultForm, IContext } from "../Data/TypesAndStates";
 import { transactions as transactionData } from "../Data/transactions";
 
 export const AppContext = createContext(defaultContext);

@@ -1,4 +1,4 @@
-import { ITransactionData } from "../Context/TypesAndStates";
+import { ITransactionData } from "./TypesAndStates";
 
 export const transactions: ITransactionData[] = [
   {

@@ -1,4 +1,4 @@
-import { transactions } from "../Data/transactions"
+import { transactions } from "./transactions"
 
 export type PaymentType = 'credit' | 'debit'
 export type BalanceType = 'leisure' | 'food' | 'utility' | 'deposit'

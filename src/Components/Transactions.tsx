@@ -1,8 +1,8 @@
 import { Divider, Grid, List, ListItemButton, ListItemIcon, ListItemText, TablePagination, TextField, Typography } from "@mui/material";
 import React, { Fragment, useState } from "react";
 import { useAppContext } from "../Context";
-import { returnTransactionIcon } from "../Data/returnTransactionIcon";
-import { ITransactionData } from "../Context/TypesAndStates";
+import { returnTransactionIcon } from "./SubComponents/returnTransactionIcon";
+import { ITransactionData } from "../Data/TypesAndStates";
 
 function Transactions() {
   const { transactions } = useAppContext();

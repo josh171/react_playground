@@ -1,7 +1,7 @@
 import { Button, Grid, ListItem, ListItemIcon, ListItemText, Stack, Typography } from "@mui/material";
 import { useAppContext } from "../Context";
 import CircleIcon from "@mui/icons-material/Circle";
-import { ITransactionData, PaymentType } from "../Context/TypesAndStates";
+import { ITransactionData, PaymentType } from "../Data/TypesAndStates";
 import { blue, green, orange, purple } from "@mui/material/colors";
 import { useState } from "react";
 import FormDialog from "./SubComponents/FormDialog";
@@ -25,7 +25,6 @@ function Balance() {
   const buttonProps: any = {
     variant: "contained",
     fullWidth: true,
-    sx: { background: orange[500] },
   };
   return (
     <Stack spacing={1}>

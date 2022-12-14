@@ -1,18 +1,14 @@
 import AppBar from "@mui/material/AppBar";
-import { Avatar, IconButton, Skeleton, Toolbar } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { Avatar, IconButton, Toolbar, Typography } from "@mui/material";
 
 function Topbar() {
-  const skeletonStyle = { margin: "0px 10px" };
   return (
-    <AppBar position="fixed" sx={{ background: grey[500] }}>
+    <AppBar>
       <Toolbar>
         <IconButton>
           <Avatar src="/images/image1 (2).jpeg" />
         </IconButton>
-        <Skeleton variant="text" width={100} style={skeletonStyle} />
-        <Skeleton variant="text" width={100} style={skeletonStyle} />
-        <Skeleton variant="text" width={100} style={skeletonStyle} />
+        <Typography variant="h5" component="div" sx={{ color: '#000' }}>Joshua Delany-Booth</Typography>
       </Toolbar>
     </AppBar>
   );

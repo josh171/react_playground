@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, TextField, Stack, Button } from "@mui/material";
 import React from "react";
 import { useAppContext } from "../../Context";
-import { defaultForm, ITransactionData, PaymentType } from "../../Context/TypesAndStates";
+import { defaultForm, ITransactionData, PaymentType } from "../../Data/TypesAndStates";
 
 interface IDialogProps {
   open: boolean;
@@ -100,7 +100,7 @@ function FormDialog({ open, setOpen, payment_type }: IDialogProps) {
                 />
               )
             )}
-            <Button variant="contained" color="success" type="submit">
+            <Button variant="contained" color="primary" type="submit">
               Confirm
             </Button>
           </Stack>
