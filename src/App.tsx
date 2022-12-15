@@ -5,11 +5,7 @@ import Transactions from "./Components/Transactions";
 import { AppContextProvider } from "./Context";
 
 function App() {
-  // Things to do before sending
-  //    Change transactions with background color
-  //    Change colours to possibly MuchBetter green and grey (defintely implement more colour!)
-  //    Make sure balance it working properly (when top up, should add to deposit)
-
+  // Main app component, wrapped in context provider
   return (
     <AppContextProvider>
       <Topbar />

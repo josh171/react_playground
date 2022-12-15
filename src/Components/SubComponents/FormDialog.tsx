@@ -23,7 +23,7 @@ function FormDialog({ open, setOpen, transaction_type }: IDialogProps) {
       description: transferType,
       date: new Date(),
       amount,
-      balance_type: "deposit",
+      balance_type: transaction_type === "topup" ? "deposit" : "withdraw",
       transaction_type 
     }]);
     // Setting amount back to default value
@@ -64,7 +64,7 @@ function FormDialog({ open, setOpen, transaction_type }: IDialogProps) {
               ))}
             </ToggleButtonGroup>
             <Button variant="contained" color="primary" type="submit">
-              Confirm Topup
+              Confirm {transaction_type}
             </Button>
             <Typography variant="body1">Your new balance will be: £{sum}</Typography>
           </Stack>

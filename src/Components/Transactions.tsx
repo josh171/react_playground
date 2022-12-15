@@ -17,6 +17,12 @@ function Transactions() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const returnTransactionAmount = (transaction_type: string, balance_type: string, amount: number) => {
+    // transaction_type === "topup" ? `+£${amount}` : `-£${amount}`
+    if (transaction_type === "topup") return `+£${amount}`
+    if (balance_type === "deposit") return `+£${amount}`
+    return `-£${amount}`
+  }
   // Variable to filter transactions (lower casing) to match the search filter state (controlled by user)
   const currentEntities = transactions.filter((item: ITransactionData) =>
     item.description.toLowerCase().includes(filter.toLowerCase())
@@ -64,7 +70,7 @@ function Transactions() {
                     primary={<strong>{description}</strong>}
                     secondary={`${new Date(date).toLocaleTimeString()} | ${new Date(date).toLocaleDateString()}`}
                   />
-                  <strong>{transaction_type === "topup" ? `£${amount}` : `-£${amount}`}</strong>
+                  <strong>{returnTransactionAmount(transaction_type, balance_type, amount)}</strong>
                 </ListItemButton>
                 <Divider />
               </Fragment>
